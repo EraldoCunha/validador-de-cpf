@@ -16,7 +16,7 @@ public class Program {
 		
 		Cpf cpf = new Cpf(numeroCpf);
 		
-		System.out.println(cpf.validador(cpf.getCpf()));
+		System.out.println("Resultado: " + cpf.validador(cpf.getCpf()));
 		
 		sc.close();
 	}

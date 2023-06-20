@@ -18,11 +18,10 @@ public class Cpf {
 	public String removeCaracter(String numero) {
 
 		numero = numero.replace(".", "");
-		// numero = numero.replace("-", "");
 
 		return numero;
 	}
-	
+
 	public boolean validador(String numero) {
 
 		String[] vetor = removeCaracter(numero).split("-");
@@ -40,14 +39,21 @@ public class Cpf {
 			list.add(verificadores[i]);
 		}
 
+		boolean resultado = resutadoVerificacao(list);
+		
+		return resultado;
+
+	}
+
+	public Integer primeiraVerificacao(List lista) {
+
 		int multiplicador = 2;
 		int soma = 0;
 		int primeiroVerificador;
 
+		for (int i = lista.size() - 3; i > -1; i--) {
 
-		for (int i = list.size() - 3; i > -1; i--) {
-
-			int aux = Integer.parseInt(list.get(i));
+			int aux = Integer.parseInt((String) lista.get(i));
 			aux *= multiplicador++;
 			soma += aux;
 		}
@@ -60,28 +66,37 @@ public class Cpf {
 			primeiroVerificador = (11 - resto);
 		}
 
-		multiplicador =2;
-		soma = 0;
-		int segundoVerificador;
-		
-		for (int i = list.size() - 2; i > -1; i--) {
+		return primeiroVerificador;
+	}
 
-			int aux = Integer.parseInt(list.get(i));
+	public Integer segundaVerificacao(List lista) {
+
+		int multiplicador = 2;
+		int soma = 0;
+		int segundoVerificador;
+
+		for (int i = lista.size() - 2; i > -1; i--) {
+
+			int aux = Integer.parseInt((String) lista.get(i));
 			aux *= multiplicador++;
 			soma += aux;
-
 		}
-		
-		int resto2 = soma % 11;
-		
-		if (resto2 < 2) {
+
+		int resto = soma % 11;
+
+		if (resto < 2) {
 			segundoVerificador = 0;
 		} else {
-			segundoVerificador = (11 - resto2);
+			segundoVerificador = (11 - resto);
 		}
-			
-		if (primeiroVerificador == Integer.parseInt(list.get(list.size() - 2))&&
-				segundoVerificador == Integer.parseInt(list.get(list.size() - 1))) {
+
+		return segundoVerificador;
+	}
+	
+	public boolean resutadoVerificacao (List lista) {
+		
+		if (primeiraVerificacao (lista) == Integer.parseInt((String) lista.get(lista.size() - 2))
+				&& segundaVerificacao(lista) == Integer.parseInt((String)lista.get(lista.size() - 1))) {
 			return true;
 		} else {
 			return false;
